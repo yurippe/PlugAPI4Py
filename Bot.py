@@ -3,8 +3,7 @@ import json
 import glob
 import os
 import sys
-
-import MParse
+sys.dont_write_bytecode = True
 
 from ws4py.client.threadedclient import WebSocketClient
 import requests
@@ -108,6 +107,6 @@ class Bot():
         this.ws.run_forever()
     
 if __name__ == "__main__":
-    bot = Bot("example@example.com", "password123", "thenightcoreclub")
+    bot = Bot("yurippenet@gmail.com", "password123", "thenightcoreclub")
     bot.loadPlugins("plugins")
     bot.start()
