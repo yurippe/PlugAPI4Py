@@ -1,5 +1,9 @@
 import time
 import json
+import glob
+import os
+import sys
+
 import MParse
 
 from ws4py.client.threadedclient import WebSocketClient
@@ -24,9 +28,23 @@ class Bot():
         this.authkey = None
         this.ws = WebSock("wss://godj.plug.dj:443/socket")
         this.ws.init(this)
-
+        this.plugins = {}
         this.parser = MParse.IncomingParser(this)
 
+    def loadPlugins(this, folder):
+        if folder.endswith("/"): slashornot = ""
+        else: slashornot = "/"
+        print "Appending '" + folder + slashornot + "' to sys.path"
+        sys.path.append(folder + slashornot)
+        print "Loading plugins from " + folder + slashornot
+        for fil in glob.glob(folder + slashornot + "*.py"):
+            friendly_name = ".".join(os.path.basename(fil).split(".")[:-1])
+            print friendly_name
+            this.plugins[friendly_name] = {"import": __import__(friendly_name), "name":friendly_name}
+
+        print this.plugins
+
+        
     def onRecv(this, websocket, message):
         #print message
         this.parser.onRecv(message)
@@ -81,5 +99,6 @@ class Bot():
         this.ws.run_forever()
     
 if __name__ == "__main__":
-    bot = Bot("example@example.com", "password123", "thenightcoreclub")
-    bot.start()
+    bot = Bot("yurippenet@gmail.com", "password123", "thenightcoreclub")
+    bot.loadPlugins("plugins")
+    #bot.start()
