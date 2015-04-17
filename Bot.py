@@ -1,0 +1,85 @@
+import time
+import json
+import MParse
+
+from ws4py.client.threadedclient import WebSocketClient
+import requests
+class WebSock(WebSocketClient):
+
+    def init(this, bot):
+        this.bot = bot
+
+    def opened(this):
+        #authenticate
+        this.send(json.dumps({"a": "auth", "p": this.bot.authkey, "t": this.bot.getServerTime()}))
+
+    def received_message(this, m):
+        this.bot.onRecv(this, m)
+                  
+class Bot():
+    def __init__(this, username, password, roomslug):
+        this.username = username
+        this.password = password
+        this.roomslug = roomslug
+        this.authkey = None
+        this.ws = WebSock("wss://godj.plug.dj:443/socket")
+        this.ws.init(this)
+
+        this.parser = MParse.IncomingParser(this)
+
+    def onRecv(this, websocket, message):
+        #print message
+        this.parser.onRecv(message)
+
+    def sendChat(this, msg):
+        this.ws.send(json.dumps({"a":"chat", "p":msg, "t":this.getServerTime()}))
+
+    def getServerTime(this):
+        return int(time.time())
+        
+    def generateAuthkey(this):
+        url = 'https://plug.dj/'
+        with requests.Session() as my_session:
+            dat = my_session.get(url)
+            data = dat.text
+            f1 = '_csrf = "'
+            f2 = '", _fb'
+            csrf = data[data.find(f1) + len(f1):data.find(f2)]
+            #print "CSRF:" + csrf
+            url = 'http://localhost:8000'
+            url = 'https://plug.dj/_/auth/login'
+            payload = {
+            'csrf': csrf,
+            'email': this.username,
+            'password': this.password
+            }
+            dat_2 = my_session.post(url, headers={"User-Agent":"plugapi_1",
+                                                  "Referer":"https://plug.dj",
+                                                  "X-Requested-With": "XMLHttpRequest",
+                                                  "Accept":"application/json, text/javascript, */*; q=0.01",
+                                                  "Accept-Encoding":"gzip, deflate",
+                                                  "Cache-Control":"no-cache",
+                                                  "Accept-Language":"en-US,en;q=0.5",
+                                                  "Pragma":"no-cache",
+                                                  "Content-Type":"application/json;charset=UTF-8"}
+                                    ,data=json.dumps(payload))
+            data_2 = dat_2.text
+
+            url = "https://plug.dj/" + this.roomslug
+            dat_3 = my_session.get(url)
+            data_3 = dat_3.text
+
+            f1_3 = '_jm="'
+            f2_3 = '",_st'
+            authkey = data_3[data_3.find(f1_3) + len(f1_3):data_3.find(f2_3)]
+            #print "Authkey: " + authkey
+            this.authkey = authkey
+
+    def start(this):
+        this.generateAuthkey()
+        this.ws.connect()
+        this.ws.run_forever()
+    
+if __name__ == "__main__":
+    bot = Bot("example@example.com", "password123", "thenightcoreclub")
+    bot.start()
