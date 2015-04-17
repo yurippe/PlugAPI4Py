@@ -29,7 +29,6 @@ class Bot():
         this.ws = WebSock("wss://godj.plug.dj:443/socket")
         this.ws.init(this)
         this.plugins = {}
-        this.parser = MParse.IncomingParser(this)
 
     def loadPlugins(this, folder):
         if folder.endswith("/"): slashornot = ""
@@ -39,15 +38,25 @@ class Bot():
         print "Loading plugins from " + folder + slashornot
         for fil in glob.glob(folder + slashornot + "*.py"):
             friendly_name = ".".join(os.path.basename(fil).split(".")[:-1])
-            print friendly_name
+            print "Loading '" + friendly_name + "' ..."
             this.plugins[friendly_name] = {"import": __import__(friendly_name), "name":friendly_name}
+            try:
+                exec('this.plugins[friendly_name]["instance"] = this.plugins[friendly_name]["import"].' +
+                 friendly_name + "(this)")
+                print "Successfully loaded '" + friendly_name + "'"
+            except:
+                print "Failed loading plugin '" + friendly_name + "'(Class name must be the same as filename for plugins)"
+                del this.plugins[friendly_name]
 
-        print this.plugins
+            this.plugins[friendly_name]["instance"].onEnable()
+            
+        #print this.plugins
 
         
     def onRecv(this, websocket, message):
         #print message
-        this.parser.onRecv(message)
+        for plugin in this.plugins.keys():
+            this.plugins[plugin]["instance"].onRecv(message)
 
     def sendChat(this, msg):
         this.ws.send(json.dumps({"a":"chat", "p":msg, "t":this.getServerTime()}))
@@ -99,6 +108,6 @@ class Bot():
         this.ws.run_forever()
     
 if __name__ == "__main__":
-    bot = Bot("yurippenet@gmail.com", "password123", "thenightcoreclub")
+    bot = Bot("example@example.com", "password123", "thenightcoreclub")
     bot.loadPlugins("plugins")
-    #bot.start()
+    bot.start()
