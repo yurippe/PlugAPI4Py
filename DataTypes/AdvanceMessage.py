@@ -11,4 +11,4 @@ class AdvanceMessage():
         except: self.djs = None
         
         try: self.media = data["p"]["m"]
-        except: self.djs = None
+        except: self.media = None
