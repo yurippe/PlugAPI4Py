@@ -2,7 +2,6 @@
 #u'joined': u'2015-04-16 02:31:47.846923', u'slug': u'eldevin', u'role': 0, u'badge': None, u'id': 6322241, u'sub': 0},
 #u's': u'thenightcoreclub'}
 class UserJoinMessage():
-    #{u'a': u'djListUpdate', u'p': [6124312, ... 6163797], u's': u'thenightcoreclub'}
     def __init__(self, data):
         self.data = data
 
