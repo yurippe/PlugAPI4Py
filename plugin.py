@@ -30,6 +30,15 @@ class plugin():
         if msg["a"] == "grab":
             self.onGrab(UserLeaveMessage(msg))
             return
+        if msg["a"] == "modMoveDJ":
+            self.onModMoveDJ(ModMoveDJMessage(msg))
+            return
+        if msg["a"] == "modSkip":
+            self.onModSkip(ModSkipMessage(msg))
+            return
+        if msg["a"] == "modAddDJ":
+            self.onModAddDJ(ModAddDJMessage(msg))
+            return
         
     def onEnable(self):
         pass
@@ -38,6 +47,7 @@ class plugin():
         self.bot.sendChat(message)
     
     def getUser(self, id):
+        # todo: a id to user convertion
         pass
     
     ##############################
@@ -62,6 +72,15 @@ class plugin():
         pass
     
     def onGrab(self,grab_message):
+        pass
+    
+    def onModMoveDJ(self,modMoveDJ_message):
+        pass
+    
+    def onModSkip(self,modSkip_message):
+        pass
+    
+    def onModAddDJ(self,modAddDJ_message):
         pass
 ##def EventHandler(event):
 ##    def wrap(func):
