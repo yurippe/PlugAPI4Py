@@ -7,8 +7,8 @@ class AdvanceMessage():
         try: self.id = data["p"]["mi"]
         except: self.id = None
 
-        try: self.userWhoAdded = data["p"]["d"]
+        try: self.userWhoAdded = data["p"]["m"]
         except: self.userWhoAdded = None
         
-        try: self.userAdded = data["p"]["m"]
+        try: self.userAdded = data["p"]["u"]
         except: self.userAdded = None
