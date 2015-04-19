@@ -1,0 +1,14 @@
+class AdvanceMessage():
+    #{u'a': u'modAddDJ', u'p': {u'mi': 5107634, u'm': u'TNC.Lizzie', u't': u'Chocacho'}, u's': u'thenightcoreclub'}
+    def __init__(self, data):
+        self.data = data
+
+        ##parse it here
+        try: self.id = data["p"]["mi"]
+        except: self.id = None
+
+        try: self.userWhoAdded = data["p"]["m"]
+        except: self.userWhoAdded = None
+        
+        try: self.userAdded = data["p"]["u"]
+        except: self.userAdded = None
