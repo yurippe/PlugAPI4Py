@@ -4,8 +4,11 @@ class ModSkipMessage():
         self.data = data
 
         ##parse it here
-        try: self.id = data["p"]["mi"]
-        except: self.id = None
+        try: self.uid = data["p"]["mi"]
+        except: self.uid = None
 
-        try: self.userWhoSkiped = data["p"]["m"]
+        try: self.userWhoSkiped = data["p"]["m"] #keep for legacy support
         except: self.userWhoSkiped = None
+
+        try: self.mod = data["p"]["m"]
+        except: self.mod = None

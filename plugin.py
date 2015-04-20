@@ -12,32 +12,35 @@ class plugin():
         if msg["a"] == "chat": 
             self.onChat(ChatMessage(msg))
             return
-        if msg["a"] == "vote": 
+        elif msg["a"] == "vote": 
             self.onVote(VoteMessage(msg))
             return
-        if msg["a"] == "advance": 
+        elif msg["a"] == "advance": 
             self.onAdvance(AdvanceMessage(msg))
             return
-        if msg["a"] == "userLeave": 
+        elif msg["a"] == "userLeave": 
             self.onUserLeave(UserLeaveMessage(msg))
             return
-        if msg["a"] == "userJoin": 
+        elif msg["a"] == "userJoin": 
             self.onUserJoin(UserJoinMessage(msg))
             return
-        if msg["a"] == "djListUpdate":
+        elif msg["a"] == "djListUpdate":
             self.onDjListUpdate(DjListUpdateMessage(msg))
             return
-        if msg["a"] == "grab":
+        elif msg["a"] == "grab":
             self.onGrab(UserLeaveMessage(msg))
             return
-        if msg["a"] == "modMoveDJ":
+        elif msg["a"] == "modMoveDJ":
             self.onModMoveDJ(ModMoveDJMessage(msg))
             return
-        if msg["a"] == "modSkip":
+        elif msg["a"] == "modSkip":
             self.onModSkip(ModSkipMessage(msg))
             return
-        if msg["a"] == "modAddDJ":
+        elif msg["a"] == "modAddDJ":
             self.onModAddDJ(ModAddDJMessage(msg))
+            return
+        else:
+            self.UNIMPLEMENTED(msg)
             return
         
     def onEnable(self):
@@ -53,6 +56,9 @@ class plugin():
     ##############################
     ##  Event Handlers          ##
     ##############################
+    def UNIMPLEMENTED(self, raw_data):
+        pass
+    
     def onChat(self, chat_message):
         pass
     

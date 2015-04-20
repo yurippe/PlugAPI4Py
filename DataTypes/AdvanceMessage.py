@@ -4,8 +4,8 @@ class AdvanceMessage():
         self.data = data
 
         ##parse it here
-        try: self.id = data["p"]["c"]
-        except: self.id = None
+        try: self.uid = data["p"]["c"]
+        except: self.uid = None
 
         try: self.djs = data["p"]["d"]
         except: self.djs = None

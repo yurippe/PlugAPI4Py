@@ -4,17 +4,29 @@ class ModMoveDJMessage():
         self.data = data
 
         ##parse it here
-        try: self.id = data["p"]["mi"]
-        except: self.id = None
+        try: self.uid = data["p"]["mi"]
+        except: self.uid = None
 
-        try: self.nameWhoMoved = data["p"]["m"]
+        try: self.nameWhoMoved = data["p"]["m"] #keep for legacy support ?
         except: self.nameWhoMoved = None
+
+        try: self.mod = data["p"]["m"]
+        except: self.mod = None
         
-        try: self.nameMoved = data["p"]["u"]
+        try: self.nameMoved = data["p"]["u"] #keep for legacy support ?
         except: self.nameMoved = None
+
+        try: self.movedUser = data["p"]["u"]
+        except: self.movedUser = None
         
-        try: self.from = data["p"]["o"]
+        try: self.from = data["p"]["o"] #keep for legacy support ?
         except: self.from = None
+
+        try: self.fromPlace = data["p"]["o"]
+        except: self.fromPlace = None
         
-        try: self.to = data["p"]["n"]
+        try: self.to = data["p"]["n"] #keep for legacy support ?
         except: self.to = None
+
+        try: self.toPlace = data["p"]["n"]
+        except: self.toPlace = None

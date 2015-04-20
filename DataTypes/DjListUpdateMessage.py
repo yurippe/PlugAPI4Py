@@ -4,5 +4,8 @@ class DjListUpdateMessage():
         self.data = data
 
         ##parse it here
-        try: self.users = data["p"]
+        try: self.users = data["p"] #keep for legacy support ?
         except: self.users = None
+
+        try: self.djs = data["p"]
+        except: self.djs = None

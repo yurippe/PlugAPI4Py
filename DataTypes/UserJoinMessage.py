@@ -6,5 +6,35 @@ class UserJoinMessage():
         self.data = data
 
         ##parse it here
-        try: self.user = data["p"]
+        try: self.userData = data["p"]
+        except: self.userData = None
+
+        try: self.user = data["p"]["username"]
         except: self.user = None
+
+        try: self.gRole = data["p"]["gRole"]
+        except: self.gRole = None
+
+        try: self.level = data["p"]["level"]
+        except: self.level = None
+
+        try: self.avatar = data["p"]["avatarID"]
+        except: self.avatar = None
+        
+        try: self.slug = data["p"]["slug"]
+        except: self.slug = None
+
+        try: self.role = data["p"]["role"]
+        except: self.role = None
+        
+        try: self.badge = data["p"]["badge"]
+        except: self.badge = None
+        
+        try: self.uid = data["p"]["id"]
+        except: self.uid = None
+        
+        try:
+            if data["p"]["sub"] == 0: self.subscriber = data["p"]["sub"] = False
+            else: self.subscriber = True
+        except: self.subscriber = None
+        
