@@ -18,15 +18,9 @@ class ModMoveDJMessage():
 
         try: self.movedUser = data["p"]["u"]
         except: self.movedUser = None
-        
-        try: self.from = data["p"]["o"] #keep for legacy support ?
-        except: self.from = None
 
         try: self.fromPlace = data["p"]["o"]
         except: self.fromPlace = None
-        
-        try: self.to = data["p"]["n"] #keep for legacy support ?
-        except: self.to = None
 
         try: self.toPlace = data["p"]["n"]
         except: self.toPlace = None

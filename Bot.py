@@ -43,11 +43,12 @@ class Bot():
                 exec('this.plugins[friendly_name]["instance"] = this.plugins[friendly_name]["import"].' +
                  friendly_name + "(this)")
                 print "Successfully loaded '" + friendly_name + "'"
+                this.plugins[friendly_name]["instance"].onEnable()
             except:
                 print "Failed loading plugin '" + friendly_name + "'(Class name must be the same as filename for plugins)"
                 del this.plugins[friendly_name]
 
-            this.plugins[friendly_name]["instance"].onEnable()
+            
             
         #print this.plugins
 
@@ -60,6 +61,9 @@ class Bot():
     def sendChat(this, msg):
         this.ws.send(json.dumps({"a":"chat", "p":msg, "t":this.getServerTime()}))
 
+    def sendRawData(this, raw_data):
+        this.ws.send(raw_data)
+        
     def getServerTime(this):
         return int(time.time())
         
