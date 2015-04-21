@@ -49,9 +49,8 @@ class plugin():
     def sendChat(self, message):
         self.bot.sendChat(message)
     
-    def getUser(self, id):
-        # todo: a id to user convertion
-        pass
+    def getUser(self, uid):
+        return self.bot.getUser(uid)
     
     ##############################
     ##  Event Handlers          ##

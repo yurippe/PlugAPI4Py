@@ -12,3 +12,6 @@ class AdvanceMessage():
         
         try: self.media = data["p"]["m"]
         except: self.media = None
+
+        try: self.historyId = data["p"]["h"]
+        except: self.historyId = None
