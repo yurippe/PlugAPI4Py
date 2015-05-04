@@ -15,3 +15,6 @@ class AdvanceMessage():
 
         try: self.historyId = data["p"]["h"]
         except: self.historyId = None
+        
+        try: self.length = data["p"]["m"]["duration"]
+        except: self.length = None
