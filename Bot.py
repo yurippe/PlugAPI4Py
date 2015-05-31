@@ -61,8 +61,9 @@ class Bot():
                  friendly_name + "(this)")
                 print "Successfully loaded '" + friendly_name + "'"
                 this.plugins[friendly_name]["instance"].onEnable()
-            except:
+            except Exception as e:
                 print "Failed loading plugin '" + friendly_name + "'(Class name must be the same as filename for plugins)"
+                print e
                 del this.plugins[friendly_name]
 
             
@@ -115,7 +116,6 @@ class Bot():
             resp = requests.get(url, data = json.dumps(data),
                          headers=headers, cookies=Cookies)
         elif(method.upper() == "POST"):
-            print json.dumps(data)
             resp = requests.post(url, data = json.dumps(data),
                          headers=headers, cookies=Cookies)
         else: return
@@ -219,6 +219,16 @@ class Bot():
             this.authkey = authkey
     def join(this):
         this.REST("POST", "rooms/join", {"slug": this.roomslug })
+        for plugin in this.plugins.keys():
+            try:
+                this.core.onJoin() #Update core first
+                this.plugins[plugin]["instance"].onJoin()
+            except Exception as e:
+                tempel1 = "|------------Error in plugin: %s-------------"%(this.plugins[plugin]["name"])
+                print  tempel1 + "-|"
+                print "|" + " "*((len(tempel1)-len(str(e)))/2) + str(e) + " "*((len(tempel1)-len(str(e)))/2) + "|"
+                print "|" + "-"*len(tempel1) + "|"
+                pass
         
     def start(this):
         this.generateAuthkey()
