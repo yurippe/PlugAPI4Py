@@ -14,9 +14,8 @@ class ookamimeh(plugin):
             r = self.getUser(data.uid)
             print r
             self.sendChat(r)
+            self.sendChat(self.meh())
             
 
     def meh(self):
-        print self.bot.REST("POST", "votes", {"direction":-1, "historyID": self.historyID})
-        
-        print "--------------------------------------"
+        return self.bot.REST("POST", "votes", {"direction":-1, "historyID": self.historyID})

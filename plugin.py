@@ -46,6 +46,10 @@ class plugin():
     def onEnable(self):
         pass
 
+    #Called when the bot joins a room
+    def onJoin(self):
+        pass
+
     def sendChat(self, message):
         self.bot.sendChat(message)
     
@@ -55,6 +59,7 @@ class plugin():
     ##############################
     ##  Event Handlers          ##
     ##############################
+    
     def UNIMPLEMENTED(self, raw_data):
         pass
     

@@ -205,9 +205,12 @@ class Bot():
             #print "Authkey: " + authkey
 
             this.authkey = authkey
-
+    def join(this):
+        this.REST("POST", "rooms/join", {"slug": this.roomslug })
+        
     def start(this):
         this.generateAuthkey()
+        this.join()
         #this.urllibGenerateAuthKey()
         this.ws.connect()
         this.ws.run_forever()
