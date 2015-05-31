@@ -11,6 +11,15 @@ sys.dont_write_bytecode = True
 
 from ws4py.client.threadedclient import WebSocketClient
 import requests
+
+import plugin
+
+#Use a plugin to do some core stuff
+class BotPlugin(plugin.plugin):
+    def onAdvance(self, data):
+        self.bot.data["historyID"] = data.historyId
+
+
 class WebSock(WebSocketClient):
 
     def init(this, bot):
@@ -33,6 +42,8 @@ class Bot():
         this.ws = WebSock("wss://godj.plug.dj:443/socket")
         this.ws.init(this)
         this.plugins = {}
+        this.data = {"historyID":""}
+        this.core = BotPlugin(this)
 
 
     def loadPlugins(this, folder):
@@ -63,6 +74,7 @@ class Bot():
         #print message
         for plugin in this.plugins.keys():
             try:
+                this.core.onRecv(message) #Update core first
                 this.plugins[plugin]["instance"].onRecv(message)
             except Exception as e:
                 tempel1 = "|------------Error in plugin: %s-------------"%(this.plugins[plugin]["name"])

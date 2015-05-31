@@ -15,7 +15,7 @@ class plugin():
         elif msg["a"] == "vote": 
             self.onVote(VoteMessage(msg))
             return
-        elif msg["a"] == "advance": 
+        elif msg["a"] == "advance":
             self.onAdvance(AdvanceMessage(msg))
             return
         elif msg["a"] == "userLeave": 
@@ -52,9 +52,16 @@ class plugin():
 
     def sendChat(self, message):
         self.bot.sendChat(message)
+
+    def sendMeh(self):
+        return self.bot.REST("POST", "votes", {"direction":-1, "historyID": self.bot.data["historyID"]})
+
+    def sendWoot(self):
+        return self.bot.REST("POST", "votes", {"direction":1, "historyID": self.bot.data["historyID"]})
     
     def getUser(self, uid):
         return self.bot.getUser(uid)
+
     
     ##############################
     ##  Event Handlers          ##

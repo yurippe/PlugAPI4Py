@@ -11,11 +11,5 @@ class ookamimeh(plugin):
 
     def onChat(self, data):
         if data.message == ".i":
-            r = self.getUser(data.uid)
-            print r
-            self.sendChat(r)
-            self.sendChat(self.meh())
+            self.sendMeh()
             
-
-    def meh(self):
-        return self.bot.REST("POST", "votes", {"direction":-1, "historyID": self.historyID})
