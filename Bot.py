@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import time
 import json
 import glob
@@ -18,7 +19,6 @@ import plugin
 class BotPlugin(plugin.plugin):
     def onAdvance(self, data):
         self.bot.data["historyID"] = data.historyId
-
 
 class WebSock(WebSocketClient):
 
@@ -49,21 +49,21 @@ class Bot():
     def loadPlugins(this, folder):
         if folder.endswith("/"): slashornot = ""
         else: slashornot = "/"
-        print "Appending '" + folder + slashornot + "' to sys.path"
+        print ("Appending '" + folder + slashornot + "' to sys.path")
         sys.path.append(folder + slashornot)
-        print "Loading plugins from " + folder + slashornot
+        print ("Loading plugins from " + folder + slashornot)
         for fil in glob.glob(folder + slashornot + "*.py"):
             friendly_name = ".".join(os.path.basename(fil).split(".")[:-1])
-            print "Loading '" + friendly_name + "' ..."
+            print ("Loading '" + friendly_name + "' ...")
             this.plugins[friendly_name] = {"import": __import__(friendly_name), "name":friendly_name}
             try:
                 exec('this.plugins[friendly_name]["instance"] = this.plugins[friendly_name]["import"].' +
                  friendly_name + "(this)")
-                print "Successfully loaded '" + friendly_name + "'"
+                print ("Successfully loaded '" + friendly_name + "'")
                 this.plugins[friendly_name]["instance"].onEnable()
             except Exception as e:
-                print "Failed loading plugin '" + friendly_name + "'(Class name must be the same as filename for plugins)"
-                print e
+                print ("Failed loading plugin '" + friendly_name + "'(Class name must be the same as filename for plugins)")
+                print (e)
                 del this.plugins[friendly_name]
 
             
@@ -79,9 +79,9 @@ class Bot():
                 this.plugins[plugin]["instance"].onRecv(message)
             except Exception as e:
                 tempel1 = "|------------Error in plugin: %s-------------"%(this.plugins[plugin]["name"])
-                print  tempel1 + "-|"
-                print "|" + " "*((len(tempel1)-len(str(e)))/2) + str(e) + " "*((len(tempel1)-len(str(e)))/2) + "|"
-                print "|" + "-"*len(tempel1) + "|"
+                print  (tempel1 + "-|")
+                print ("|" + " "*((len(tempel1)-len(str(e)))/2) + str(e) + " "*((len(tempel1)-len(str(e)))/2) + "|")
+                print ("|" + "-"*len(tempel1) + "|")
                 pass
 
     def sendChat(this, msg):
@@ -168,8 +168,8 @@ class Bot():
         request.get_method = lambda: "POST"
 
         con = opener.open(request)
-        print con.headers
-        print con.read()
+        print (con.headers)
+        print (con.read())
         return
 
             
@@ -214,7 +214,7 @@ class Bot():
             f1_3 = '_jm="'
             f2_3 = '",_st'
             authkey = data_3[data_3.find(f1_3) + len(f1_3):data_3.find(f2_3)]
-            #print "Authkey: " + authkey
+            #print ("Authkey: " + authkey)
 
             this.authkey = authkey
     def join(this):
@@ -225,15 +225,15 @@ class Bot():
                 this.plugins[plugin]["instance"].onJoin()
             except Exception as e:
                 tempel1 = "|------------Error in plugin: %s-------------"%(this.plugins[plugin]["name"])
-                print  tempel1 + "-|"
-                print "|" + " "*((len(tempel1)-len(str(e)))/2) + str(e) + " "*((len(tempel1)-len(str(e)))/2) + "|"
-                print "|" + "-"*len(tempel1) + "|"
+                print  (tempel1 + "-|")
+                print ("|" + " "*((len(tempel1)-len(str(e)))/2) + str(e) + " "*((len(tempel1)-len(str(e)))/2) + "|")
+                print ("|" + "-"*len(tempel1) + "|")
                 pass
         
     def start(this):
         this.generateAuthkey()
-        this.join()
         #this.urllibGenerateAuthKey()
+        this.join()
         this.ws.connect()
         this.ws.run_forever()
     
